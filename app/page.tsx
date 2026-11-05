@@ -7,6 +7,7 @@ export default function Portfolio() {
   const [scrolled, setScrolled] = useState(false);
   const [activeTab, setActiveTab] = useState('all');
   const [copied, setCopied] = useState(false);
+  const whatsappUrl = 'https://wa.me/919686137235?text=Hi%20Channaveerayya%2C%20I%20saw%20your%20portfolio%20and%20need%20help%20with%20a%20project.';
 
   useEffect(() => {
     const handleScroll = () => {
@@ -18,14 +19,14 @@ export default function Portfolio() {
 
   const projects = [
     {
-      id: "eventhub",
-      title: "EventHub Platform",
+      id: "letsconnect",
+      title: "LetsConnect",
       category: "web",
       description: "Full-stack event management and seat reservation dashboard with real-time occupancy calculations and CRUD operations.",
       tech: ["Next.js", "React", "Tailwind CSS"],
       badge: "Featured",
       accuracy: null,
-      liveUrl: "https://your-eventhub-demo.vercel.app",
+      liveUrl: "https://lets-connect-2-o.vercel.app/",
       githubUrl: "https://github.com/shravangandhadha/Ticket_Booking_and_Management"
     },
     {
@@ -36,7 +37,7 @@ export default function Portfolio() {
       tech: ["Python", "Streamlit", "Scikit-Learn", "Pandas"],
       badge: "89% Accuracy",
       accuracy: "89%",
-      liveUrl: "#",
+      liveUrl: "https://lnkd.in/p/dFZbykne",
       githubUrl: "#"
     },
     {
@@ -47,7 +48,7 @@ export default function Portfolio() {
       tech: ["Next.js", "TypeScript", "Tailwind CSS"],
       badge: "Client Ready",
       accuracy: null,
-      liveUrl: "https://your-ticket-system.vercel.app",
+      liveUrl: "https://booking-management-flame.vercel.app/",
       githubUrl: "https://github.com/shravangandhadha/Ticket_Booking_and_Management"
     }
   ];
@@ -70,29 +71,43 @@ export default function Portfolio() {
     }
   ];
 
-  const achievements = [
-    { title: "Vadodara Hackathon 6.0", role: "Team Leader — Project SPARC", tag: "Hackathon" },
-    { title: "PU Code Hackathon 3.0", role: "36-Hour Coding Challenge Leader", tag: "Hackathon" },
-    { title: "Promptwars x Parul University", role: "Deployed Capstone Finalist", tag: "Prompt Eng" },
-    { title: "Industrial Visiting Professor Program", role: "Built ML Model with 89% Accuracy", tag: "AI/ML" }
-  ];
-
   const filteredProjects = activeTab === 'all' 
     ? projects 
     : projects.filter(p => p.category === activeTab);
 
-  const copyWhatsAppMessage = () => {
-    navigator.clipboard.writeText("Hi Channaveerayya, I saw your portfolio and I need help with my final-year project.");
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
+  const copyWhatsAppMessage = async () => {
+    const message = "Hi Channaveerayya, I saw your portfolio and I need help with my final-year project.";
+
+    try {
+      if (navigator.clipboard && window.isSecureContext) {
+        await navigator.clipboard.writeText(message);
+      } else {
+        const textarea = document.createElement("textarea");
+        textarea.value = message;
+        textarea.setAttribute("readonly", "");
+        textarea.style.position = "fixed";
+        textarea.style.top = "-9999px";
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand("copy");
+        document.body.removeChild(textarea);
+      }
+
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (error) {
+      console.error("Failed to copy WhatsApp inquiry message:", error);
+      setCopied(false);
+    }
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 font-sans selection:bg-indigo-500 selection:text-white relative overflow-x-hidden">
+    <div className="min-h-screen bg-[radial-gradient(circle_at_top,_rgba(99,102,241,0.14),_transparent_35%),radial-gradient(circle_at_bottom_right,_rgba(34,211,238,0.12),_transparent_30%),#020817] text-slate-100 font-sans selection:bg-indigo-500 selection:text-white relative overflow-x-hidden">
       
       {/* Dynamic Background Glows */}
-      <div className="fixed top-0 left-1/4 w-[500px] h-[500px] bg-indigo-600/10 rounded-full blur-[120px] pointer-events-none -z-10 animate-pulse" />
-      <div className="fixed bottom-0 right-1/4 w-[500px] h-[500px] bg-cyan-500/10 rounded-full blur-[120px] pointer-events-none -z-10" />
+      <div className="fixed top-0 left-1/4 w-[500px] h-[500px] bg-indigo-500/15 rounded-full blur-[120px] pointer-events-none -z-10 animate-pulse" />
+      <div className="fixed bottom-0 right-1/4 w-[500px] h-[500px] bg-cyan-400/12 rounded-full blur-[120px] pointer-events-none -z-10" />
+      <div className="fixed top-1/3 right-0 w-[350px] h-[350px] bg-fuchsia-500/10 rounded-full blur-[120px] pointer-events-none -z-10" />
 
       {/* Sticky Glassmorphic Header */}
       <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${scrolled ? 'bg-slate-950/80 backdrop-blur-md border-b border-slate-800/80 py-3 shadow-2xl' : 'bg-transparent py-5'}`}>
@@ -107,12 +122,11 @@ export default function Portfolio() {
           <nav className="hidden md:flex items-center gap-8 text-xs font-medium text-slate-400">
             <a href="#projects" className="hover:text-white transition-colors">Projects</a>
             <a href="#services" className="hover:text-white transition-colors">Services</a>
-            <a href="#achievements" className="hover:text-white transition-colors">Achievements</a>
             <a href="#contact" className="hover:text-white transition-colors">Contact</a>
           </nav>
 
           <a 
-            href="https://wa.me/?text=Hi%20Channaveerayya,%20I%20saw%20your%20portfolio%20and%20need%20help%20with%20a%20project." 
+            href={whatsappUrl}
             target="_blank" 
             rel="noopener noreferrer"
             className="flex items-center gap-2 bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/20 px-4 py-2 rounded-xl text-xs font-semibold transition-all hover:scale-105">
@@ -193,16 +207,19 @@ export default function Portfolio() {
           {/* Tab Filter */}
           <div className="flex bg-slate-900 p-1 rounded-xl border border-slate-800 text-xs font-medium">
             <button 
+              type="button"
               onClick={() => setActiveTab('all')} 
               className={`px-3.5 py-1.5 rounded-lg transition ${activeTab === 'all' ? 'bg-indigo-600 text-white' : 'text-slate-400 hover:text-white'}`}>
               All Projects
             </button>
             <button 
+              type="button"
               onClick={() => setActiveTab('web')} 
               className={`px-3.5 py-1.5 rounded-lg transition ${activeTab === 'web' ? 'bg-indigo-600 text-white' : 'text-slate-400 hover:text-white'}`}>
               Full-Stack
             </button>
             <button 
+              type="button"
               onClick={() => setActiveTab('ml')} 
               className={`px-3.5 py-1.5 rounded-lg transition ${activeTab === 'ml' ? 'bg-indigo-600 text-white' : 'text-slate-400 hover:text-white'}`}>
               Machine Learning
@@ -242,15 +259,16 @@ export default function Portfolio() {
                   href={p.liveUrl} 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="flex-1 bg-indigo-600 hover:bg-indigo-500 text-white text-center py-2 rounded-xl text-xs font-semibold transition">
-                  Live Demo
+                  className="flex-1 bg-indigo-600 hover:bg-indigo-500 text-white text-center py-2 rounded-xl text-xs font-semibold transition flex items-center justify-center gap-1.5">
+                  <span>Live Demo</span>
+                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
                 </a>
                 <a 
                   href={p.githubUrl} 
                   target="_blank" 
                   rel="noopener noreferrer"
-                  className="px-3 py-2 bg-slate-950 hover:bg-slate-800 border border-slate-800 text-slate-300 rounded-xl text-xs font-medium transition">
-                  GitHub
+                  className="px-3 py-2 bg-slate-950 hover:bg-slate-800 border border-slate-800 text-slate-300 rounded-xl text-xs font-medium transition flex items-center justify-center">
+                  <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
                 </a>
               </div>
             </div>
@@ -276,26 +294,6 @@ export default function Portfolio() {
         </div>
       </section>
 
-      {/* ACHIEVEMENTS / PROOF OF WORK */}
-      <section id="achievements" className="max-w-6xl mx-auto px-6 py-20 space-y-10 border-t border-slate-800/60">
-        <div className="space-y-2 text-center md:text-left">
-          <h2 className="text-2xl sm:text-3xl font-bold text-white">Hackathons & Track Record</h2>
-          <p className="text-xs text-slate-400">Verified competitive programming, hackathon leadership, and technical assessments.</p>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {achievements.map((item, idx) => (
-            <div key={idx} className="bg-slate-900/60 border border-slate-800 p-5 rounded-2xl space-y-2">
-              <span className="text-[10px] font-semibold text-cyan-400 bg-cyan-500/10 px-2 py-0.5 rounded border border-cyan-500/20">
-                {item.tag}
-              </span>
-              <h4 className="text-sm font-bold text-white pt-1">{item.title}</h4>
-              <p className="text-xs text-slate-400">{item.role}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
       {/* FOOTER & CONTACT FORM */}
       <section id="contact" className="max-w-6xl mx-auto px-6 py-20 space-y-10 border-t border-slate-800/60">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
@@ -307,6 +305,7 @@ export default function Portfolio() {
 
             <div className="pt-2">
               <button 
+                type="button"
                 onClick={copyWhatsAppMessage}
                 className="bg-slate-900 hover:bg-slate-800 border border-slate-800 text-slate-300 px-4 py-2.5 rounded-xl text-xs font-semibold transition">
                 {copied ? "✓ Template Copied!" : "📋 Copy Inquiry Message"}
@@ -338,7 +337,7 @@ export default function Portfolio() {
               </div>
 
               <a 
-                href="https://wa.me/?text=Hi%20Channaveerayya,%20I%20saw%20your%20portfolio%20and%20need%20help%20with%20a%20project." 
+                href={whatsappUrl}
                 target="_blank" 
                 rel="noopener noreferrer"
                 className="w-full block text-center bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-semibold py-3 rounded-xl shadow-lg shadow-emerald-600/20 transition">
